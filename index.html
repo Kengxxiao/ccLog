@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+	</head>
+	<style>
+		.imgt
+		{
+			width: 150px;
+		}
+		.sr
+		{
+			width: 50px;
+		}
+		.triangle-topleft 
+		{
+			border: 60px solid transparent;
+			border-left-color: #FF0000;
+			border-top-width: 0;
+		}
+		table.gridtable {
+		    font-family: verdana,arial,sans-serif;
+		    font-size:11px;
+		    color:#333333;
+		    border-width: 1px;
+		    border-color: #666666;
+		    border-collapse: collapse;
+		}
+		table.gridtable th {
+		    border-width: 1px;
+		    padding: 8px;
+		    border-style: solid;
+		    border-color: #666666;
+		    background-color: #dedede;
+		}
+		table.gridtable td {
+		    border-width: 1px;
+		    padding: 8px;
+		    border-style: solid;
+		    border-color: #666666;
+		    background-color: #ffffff;
+		}
+		.area
+		{
+			resize: none; 
+			width: 100%; 
+			padding: 0px;
+		}
+		.btnA
+		{
+			height: 5%; 
+			width: 100%;
+		}
+		$span
+		{
+			float: left;
+		}
+	</style>
+	<body>
+		<center><big>危机合约记录器</big><br>
+		<big id="time"></big></center>
+		<hr>
+		<div>
+			<table border="1" style="float:left; width:75%;" class="gridtable">
+				<tbody id="table">
+				</tbody>
+			</table>
+			<div style="float: right; width: 22%; resize: none;">
+				<div style="width: 50%;">
+					<span>游戏ID过滤</span>
+					<textarea class="area" id="sTxt" rows="1" onchange="page=0;render()"></textarea>
+					<button class="btnA" id="reset" style="margin-top: 5px;" onclick="reset()">重置</button>
+				</div>
+				<div style="width: 50%;">
+					<span>账号添加</span><br>
+					<span>游戏ID（带#号）</span>
+					<textarea class="area" id="gameId" rows="1"></textarea>
+					<span>名字下面ID（校验用）</span>
+					<textarea class="area" id="userId" rows="1"></textarea>
+					<input name="server" type="radio" checked value="0">官服
+					<input name="server" type="radio" value="1">B服
+					<button class="btnA" id="commit" onclick="commit()">确认添加</button>
+					<span>请注意：只有游戏ID和内部ID一致才会被成功添加</span><br>
+					<span>目前只能刷新官服数据，B服数据依然会保存后续一起刷新</span><br>
+					<span>刷新间隔：1小时</span>
+				</div>
+				<textarea id="detail" rows="20" style="resize: none; margin-top: 3%; width: 50%; padding: 0px;" readonly></textarea>
+				<div style="width: 50%;">
+					<button id="prev" onclick="prev()">上一页</button>
+					<button id="next" style="float: right;" onclick="next()">下一页</button>
+				</div>
+			</div>
+		</div>
+		<script src="js/index.js"></script>
+	</body>
+</html>
