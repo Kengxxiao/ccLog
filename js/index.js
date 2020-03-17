@@ -138,7 +138,7 @@ function commit()
 	var userId = $("#userId").val()
 	var serverId = $('input:radio[name="server"]:checked').val()
 	var param = {"gameId": gameId, "userId": userId, "serverId": serverId}
-	$.ajax('http://service-8tk9nq4g-1254119946.gz.apigw.tencentcs.com/release/update_user',{
+	$.ajax('https://service-8tk9nq4g-1254119946.gz.apigw.tencentcs.com/release/update_user',{
 		data:param,
 		dataType:'json',//服务器返回json格式数据
 		type:'post',//HTTP请求类型
