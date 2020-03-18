@@ -17,7 +17,7 @@ $.ajaxSettings.async=true;
 var limitedName = ""
 
 var page = 0
-var dataPerPage = 4
+var dataPerPage = parseInt($("#perPage").attr("data"))
 function render()
 {
 	limitedName = $("#sTxt").val()
@@ -117,7 +117,8 @@ function render()
 					show += "精英阶段" + realDb[a].assistCharList[b].evolvePhase + "\n"
 					show += "Lv." + realDb[a].assistCharList[b].level + "\n"
 					show += "潜能等级" + (realDb[a].assistCharList[b].potentialRank + 1) + "\n"
-					show += db.skill[skillId].levels[skillLv - 1].name + " Lv." + skillLv
+					if (skillId != "")
+						show += db.skill[skillId].levels[skillLv - 1].name + " Lv." + skillLv
 					$("#detail").val(show)
 				})
 			})(i, j)
@@ -141,7 +142,7 @@ function render()
 	}
 }
 
-$.getJSON("img/data/bot.json", function(botData)
+$.getJSON($("#file").attr("data"), function(botData)
 {
 	db["bot"] = botData
 	var date = new Date(botData.time * 1000)
