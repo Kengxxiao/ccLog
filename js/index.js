@@ -20,13 +20,35 @@ var page = 0
 var dataPerPage = 4
 function render()
 {
+	limitedName = $("#sTxt").val()
+	var found = []
+	if (limitedName != "")
+	{
+		for (var i = 0; i < db.bot["length"]; i++)
+		{
+			var nick = db.bot.data[i]["nickName"]
+			if (nick.indexOf(limitedName) >= 0)
+			{
+				found.push(db.bot.data[i])
+			}
+		}
+	}
+	var realDb = []
+	if (found.length != 0 || limitedName != "")
+	{
+		realDb = found
+	}
+	else
+	{
+		realDb = db.bot.data
+	}
 	if (page < 0)
 		page = 0
-	if (page * dataPerPage > db.bot["length"])
-		page = parseInt(db.bot["length"] / dataPerPage)
-	if (page * dataPerPage == db.bot["length"])
+	if (page * dataPerPage > realDb.length)
+		page = parseInt(realDb.length / dataPerPage)
+	if (page * dataPerPage == realDb.length)
 		page--
-	if (db.bot["length"] == 0)
+	if (realDb.length == 0)
 		page = 0
 	var tbody = document.getElementById("table")
 	if (tbody.innerHTML != "")
@@ -42,28 +64,23 @@ function render()
 		tr.appendChild(th)
 	}
 	var fox = dataPerPage * page + dataPerPage
-	if (fox > db.bot["length"])
-		fox = db.bot["length"]
-	limitedName = $("#sTxt").val()
+	if (fox > realDb.length)
+		fox = realDb.length
 	for (var i = dataPerPage * page; i < fox; i++)
 	{
-		var nick = db.bot.data[i]["nickName"]
-		if (limitedName != "" && nick.indexOf(limitedName) < 0)
-		{
-			continue
-		}
+		var nick = realDb[i]["nickName"]
 		tr = tbody.insertRow(((i + 1) - dataPerPage * page) % (dataPerPage + 1))
 		var server = tr.insertCell(0)
 		server.setAttribute("class", "sr")
-		server.innerHTML = "<center>" + (db.bot.data[i].server ? "B服" : "官服") +"</center>"
+		server.innerHTML = "<center>" + (realDb[i].server ? "B服" : "官服") +"</center>"
 		var id = tr.insertCell(1)
 		id.innerHTML = "<center>" + nick + "</center>" 
-		if (db.bot.data[i]["msg"] != undefined)
+		if (realDb[i]["msg"] != undefined)
 		{
 			id.innerHTML += "<hr>"
-			id.innerHTML += "<center>" + db.bot.data[i]["msg"] + "</center>"
+			id.innerHTML += "<center>" + realDb[i]["msg"] + "</center>"
 		}
-		var assists = db.bot.data[i].assistCharList
+		var assists = realDb[i].assistCharList
 		for (var j = 0; j < assists.length; j++)
 		{
 			var sk = db.skin[assists[j].skinId]
@@ -74,13 +91,13 @@ function render()
 			{
 				img.addEventListener('click', function()
 				{
-					var skillLv = db.bot.data[a].assistCharList[b].mainSkillLvl
-					var skillId = db.bot.data[a].assistCharList[b].skillId
-					var charId = db.bot.data[a].assistCharList[b].charId
+					var skillLv = realDb[a].assistCharList[b].mainSkillLvl
+					var skillId = realDb[a].assistCharList[b].skillId
+					var charId = realDb[a].assistCharList[b].charId
 					var show = db.char[charId].name + "\n"
-					show += "精英阶段" + db.bot.data[a].assistCharList[b].evolvePhase + "\n"
-					show += "Lv." + db.bot.data[a].assistCharList[b].level + "\n"
-					show += "潜能等级" + (db.bot.data[a].assistCharList[b].potentialRank + 1) + "\n"
+					show += "精英阶段" + realDb[a].assistCharList[b].evolvePhase + "\n"
+					show += "Lv." + realDb[a].assistCharList[b].level + "\n"
+					show += "潜能等级" + (realDb[a].assistCharList[b].potentialRank + 1) + "\n"
 					show += db.skill[skillId].levels[skillLv - 1].name + " Lv." + skillLv
 					$("#detail").val(show)
 				})
