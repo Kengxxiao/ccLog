@@ -33,14 +33,33 @@ function render()
 			}
 		}
 	}
-	var realDb = []
+	var realDb2 = []
 	if (found.length != 0 || limitedName != "")
 	{
-		realDb = found
+		realDb2 = found
 	}
 	else
 	{
-		realDb = db.bot.data
+		realDb2 = db.bot.data
+	}
+	var realDb = []
+	var max = {}
+	for (var i = 0; i < realDb2.length; i++)
+	{
+		var assists = realDb2[i].assistCharList
+		max[i] = 0
+		for (var j = 0; j < assists.length; j++)
+		{
+			if (assists[j].record > max[i])
+			{
+				max[i] = assists[j].record
+			}
+		}
+	}
+	var sdic = Object.keys(max).sort(function(a, b){return max[b] - max[a];});
+	for (var k in sdic)
+	{
+		realDb.push(realDb2[sdic[k]])
 	}
 	if (page < 0)
 		page = 0
